@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/coresFragment">
+
+    <fragment
+        android:id="@+id/cardsFragment"
+        android:name="com.naniak.appcores.CardsFragment"
+        android:label="fragment_cards"
+        tools:layout="@layout/fragment_cards" >
+        <argument
+            android:name="rgbModel"
+            app:argType="com.naniak.appcores.adapter.RgbModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/coresFragment"
+        android:name="com.naniak.appcores.CoresFragment"
+        android:label="fragment_cores"
+        tools:layout="@layout/fragment_cores" >
+        <action
+            android:id="@+id/action_coresFragment_to_cardsFragment"
+            app:destination="@id/cardsFragment" />
+    </fragment>
+</navigation>
