@@ -1,6 +1,10 @@
 package com.naniak.appcores
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.ColorSpace
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +18,7 @@ import com.naniak.appcores.databinding.FragmentCardsBinding
 class CardsFragment : Fragment() {
 
     private  var binding: FragmentCardsBinding? = null
-    private val args: CardsFragmentArgs by navArgs()
+
 
 
     override fun onCreateView(
@@ -35,14 +39,27 @@ class CardsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
       //  Log.d("TESTE", "onViewCreated: CardFragment ")
+       val  prefs = getActivity()?.getSharedPreferences("CORES", Context.MODE_PRIVATE);
+        val hex =  prefs?.getString("HEX",null)
+        val R =  prefs?.getInt("R",0)
+        val G =  prefs?.getInt("G",0)
+        val B =  prefs?.getInt("B",0)
+        val resultado =  prefs?.getInt("RESULTADO",0)
+
+        val modelo = resultado?.let { RgbModel(resultado = it, Triple(R,G,B),hex) }
+
+        val lista = mutableListOf<RgbModel>()
+        modelo?.let { lista.add(it) }
 
 
-        val colors = args.rgbModel as RgbModel
-
-        val listcor = listOf(colors)
+       // Log.d("TESTE", "onViewCreated: $valor ")
 
 
-        val adapter = RgbAdapter(listcor)
+
+            //val listcor = listOf(lista)
+
+
+        val adapter = RgbAdapter(lista)
         binding?.rvCoresFragmentList?.layoutManager = LinearLayoutManager(requireContext())
         binding?.rvCoresFragmentList?.adapter = adapter
     }

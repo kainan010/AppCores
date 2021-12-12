@@ -1,6 +1,8 @@
 package com.naniak.appcores
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -27,6 +29,10 @@ class CoresFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
         // Inflate the layout for this fragment
         binding = FragmentCoresBinding.inflate(inflater, container, false)
 
+        val sharedPref = context?.getSharedPreferences("CORES", Context.MODE_PRIVATE)
+        var editor = sharedPref?.edit()
+
+
 
         binding?.apply {
 
@@ -50,12 +56,22 @@ class CoresFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
                 viewResultadoRgb.setBackgroundColor(resultado)
 
 
+
+
                 val hexString = Integer.toHexString(resultado).uppercase()
 
                 val model = RgbModel(resultado, Triple(randomVermelho, randomVerde, randomAzul), hexString)
 
-                val action = CoresFragmentDirections.actionCoresFragmentToCardsFragment()
-                findNavController().navigate(action)
+                editor?.apply {
+                    putString("HEX",hexString)
+                    putInt("R",randomVermelho)
+                    putInt("G",randomVerde)
+                    putInt("B",randomAzul)
+                    putInt("RESULTADO",resultado)
+                    apply()
+                }
+
+
             }
 
 

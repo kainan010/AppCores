@@ -9,13 +9,7 @@
         android:id="@+id/cardsFragment"
         android:name="com.naniak.appcores.CardsFragment"
         android:label="fragment_cards"
-        tools:layout="@layout/fragment_cards" >
-        <argument
-            android:name="rgbModel"
-            app:argType="com.naniak.appcores.adapter.RgbModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
+        tools:layout="@layout/fragment_cards" />
     <fragment
         android:id="@+id/coresFragment"
         android:name="com.naniak.appcores.CoresFragment"
