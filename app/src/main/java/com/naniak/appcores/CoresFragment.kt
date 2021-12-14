@@ -12,8 +12,10 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.naniak.appcores.adapter.RgbModel
 import com.naniak.appcores.databinding.FragmentCoresBinding
+import io.paperdb.Paper
 
 class CoresFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
@@ -29,18 +31,17 @@ class CoresFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
         // Inflate the layout for this fragment
         binding = FragmentCoresBinding.inflate(inflater, container, false)
 
+        Paper.init(context)
+
         val sharedPref = context?.getSharedPreferences("CORES", Context.MODE_PRIVATE)
         var editor = sharedPref?.edit()
-
-
-
+        val listaCores = mutableListOf<RgbModel>()
         binding?.apply {
-
 
             seekBarCoresVermelho.setOnSeekBarChangeListener(this@CoresFragment)
             seekBarCoresVerde.setOnSeekBarChangeListener(this@CoresFragment)
             seekBarCoresAzul.setOnSeekBarChangeListener(this@CoresFragment)
-            //val listaCores = mutableListOf<RgbModel>()
+
 
             botaoSorteio.setOnClickListener {
 
@@ -62,14 +63,19 @@ class CoresFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
                 val model = RgbModel(resultado, Triple(randomVermelho, randomVerde, randomAzul), hexString)
 
-                editor?.apply {
-                    putString("HEX",hexString)
-                    putInt("R",randomVermelho)
-                    putInt("G",randomVerde)
-                    putInt("B",randomAzul)
-                    putInt("RESULTADO",resultado)
-                    apply()
-                }
+                listaCores.add(model)
+
+                Paper.book().write("model",listaCores)
+
+                /*val gson = Gson()
+                val json = gson.toJson(model)
+
+                    editor?.apply {
+                        putString("OBJETO",json)
+                        apply()
+                    }*/
+
+
 
 
             }
